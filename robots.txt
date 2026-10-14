@@ -1,4 +1,3 @@
+# Private alpha concept — not a production site.
 User-agent: *
-Allow: /
-
-Sitemap: https://furnishingpacks.co.uk/sitemap.xml
+Disallow: /
