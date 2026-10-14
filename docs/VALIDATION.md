@@ -45,8 +45,8 @@ Quote submission builds a `mailto:` email draft and holds quote selections in me
 
 ## Original snapshot on GitHub
 
-Repository: <https://github.com/Syghx/furnishing-packs-alpha> (private).
+Repository: <https://github.com/Syghx/furnishing-packs-alpha> (public as of 15 October 2026).
 
 The `original-alpha` branch points to commit `5d58fccbcc92c7a9333f4427bfaa443317af0126` and is unchanged. Its 11 files from the supplied `furnishing-packs-rooms` folder, including its original README, were checked against their Git blob hashes when uploaded.
 
-The company's reviewer identities have not been supplied, so repository invitations and the handover message remain pending.
+The repository is public, so invitations are no longer required to view or download the source. The company handover message remains a draft.
