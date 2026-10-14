@@ -1,14 +1,27 @@
 # Handover verification
 
-Checked on **14 October 2026** against the supplied `f.zip` archive.
+Checked on **14 October 2026**: first against the supplied `f.zip` archive, then again in a browser for the latest update.
 
 ## Scope
 
-The current `furnishing-packs-rooms` application was copied into the repository root. Its existing HTML, JavaScript, SVG assets, logo reference page and crawl metadata are preserved byte for byte. Changes in this package are documentation and `.gitignore`.
+The current `furnishing-packs-rooms` application is at the repository root: its HTML, JavaScript, SVG assets, logo reference page and crawl metadata. The earlier `furnishing-packs-3d` and `furnishing-packs-site` experiments, machine-specific Claude launch configuration and design-tool caches are excluded. The original uploaded archive was not modified.
 
-The earlier `furnishing-packs-3d` and `furnishing-packs-site` experiments, machine-specific Claude launch configuration and design-tool caches are excluded. The original uploaded archive was not modified.
+## Latest update
 
-## Completed checks
+Before this update, all 10 application, asset and metadata files on `main` were byte-identical to the working preview (Git blob hashes compared).
+
+Running the repository copy in a browser found one script error, which is fixed in `js/main.js` (three lines). The catalogue read its page position by dividing by its own width. When the page loads while it is not displayed (as happened in a hidden browser pane), that width is zero, so the catalogue stopped before sizing itself. It now keeps its place until it has a width. No other application file differs from the `original-alpha` branch.
+
+| Check | Result |
+| --- | --- |
+| Local files | Served locally, every local file returned HTTP 200: scripts, logo SVGs, logo page, `robots.txt` and `sitemap.xml`; no image failed to load |
+| Script errors | One found and fixed (above); none after the fix, including when the catalogue is hidden and the window resized |
+| Quote | Malvern, one-bedroom apartment: £1,650.00 + £330.00 VAT = £1,980.00; adding it again does not add a second line, and the catalogue's button reads "In your quote" |
+| Catalogue | Cover and contents, then nine packs; turning to Malvern names Oliver as the next pack; all 86 photographs open the enlarged view on the matching picture |
+| Delivery week | 54 choices; choosing one updates step 4 and its hint |
+| Logo page | Loads with all 13 logo images and no console messages |
+
+## First upload checks
 
 | Check | Result |
 | --- | --- |
@@ -22,20 +35,18 @@ The earlier `furnishing-packs-3d` and `furnishing-packs-site` experiments, machi
 | HTTP responses | Main page, JavaScript, local brand assets and crawl metadata returned HTTP 200 with the expected bytes |
 | Obvious credential patterns | No GitHub token, common API-key or private-key marker was found in the retained source |
 
-The preview uses the standard-library command documented in the README. Its Windows `py -3` launcher spelling was not run on Windows in this environment.
+The Windows `py -3` launcher spelling in the README was not run.
 
 ## Verification limits
 
-A browser executable is not installed in this execution environment. A Playwright launch was attempted and could not start for that reason. Desktop/mobile appearance, browser interactions, WebGL rendering and externally hosted asset availability have **not** been freshly verified here. No claim of a complete browser QA pass or measured performance improvement is made.
+The browser checks ran in a Chromium-based browser pane (the Claude desktop app's) while it was narrow and hidden, so animation smoothness and visual appearance were not judged in that pass. The 86-photograph check ran on the identical working files at 1614 px wide. Safari, Firefox and real phones were not tested, and no performance was measured.
 
-Source inspection confirms that quote submission builds a `mailto:` URL and holds quote selections in memory. No enquiry email was sent. The company handover message is a draft.
+Quote submission builds a `mailto:` email draft and holds quote selections in memory. No enquiry email was sent. The company handover message is a draft.
 
 ## Original snapshot on GitHub
 
 Repository: <https://github.com/Syghx/furnishing-packs-alpha> (private).
 
-The `original-alpha` branch points to commit `5d58fccbcc92c7a9333f4427bfaa443317af0126`. All 11 files from the supplied `furnishing-packs-rooms` folder, including its original README, were uploaded and checked against their Git blob hashes. All hashes match, with no additional or missing files.
-
-The `main` handover uses those same 10 application/asset/metadata files, with a shorter company-facing README and separate handover documentation. Its uploaded tree is checked again after the main branch is updated. These file-integrity checks establish source preservation; they do not constitute a browser QA pass.
+The `original-alpha` branch points to commit `5d58fccbcc92c7a9333f4427bfaa443317af0126` and is unchanged. Its 11 files from the supplied `furnishing-packs-rooms` folder, including its original README, were checked against their Git blob hashes when uploaded.
 
 The company's reviewer identities have not been supplied, so repository invitations and the handover message remain pending.

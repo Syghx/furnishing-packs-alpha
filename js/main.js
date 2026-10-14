@@ -1767,8 +1767,10 @@ function settleBook() {
   bookTrack.style.transition = '';
 }
 // Where the book is, from its scroll position (a swipe), or set at once by a click on an arrow or the contents.
+// A page loaded while hidden has no width yet to read a position from, so the book stays where it is.
 function bookWhere() {
-  bookLabels(clamp(Math.round(bookTrack.scrollLeft / bookTrack.clientWidth), 0, BOOK_SPREADS - 1));
+  const w = bookTrack.clientWidth;
+  bookLabels(w ? clamp(Math.round(bookTrack.scrollLeft / w), 0, BOOK_SPREADS - 1) : book.s);
 }
 function bookLabels(s) {
   book.s = s;
