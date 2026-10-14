@@ -9,7 +9,7 @@ The team mentioned that it may be more practical to take **parts of this concept
 - **A more interactive homepage.** Instead of making visitors search around for the packages, they can see and switch between them straight away. The furniture is the focus from the first screen.
 - **Packages for different property types.** Visitors can choose the type of property and number of bedrooms while looking at a pack. The idea is to make the choices feel more connected without losing the original site's useful pages or search visibility.
 - **More freedom to customise a pack.** Customers can experiment with quantities, remove items or add furniture from another pack and see an indicative price. They get a clearer idea of what they want before speaking to the team.
-- **A clearer quote journey.** After choosing a pack, customers can review the items, costs and preferred delivery week in a step-by-step flow. It should be easier to follow than jumping between different bits of information. Delivery is not booked by choosing a week.
+- **A clearer, four-step quote journey.** Instead of describing the process and then making visitors find the next action, the concept lets them **(1)** pick a package, **(2)** review their quote, **(3)** choose a preferred delivery week and **(4)** send the quote request. It's a step towards an enquiry, not an online checkout or confirmed delivery booking.
 - **A furniture catalogue.** This lets people browse packs, turn pages and enlarge furniture photos, rather than only seeing a package overview. It could be added to the existing website as another way to explore the same products—not as a reason to remove their current product pages.
 - **A logo concept.** I've also included a [separate page showing the logo idea](brand/logo.html) and how it might look in different places. It's just another direction to discuss.
 
@@ -20,6 +20,14 @@ These are ideas shown through a working prototype, not features ready to be adde
 I understand why the team is cautious about changing the whole website, particularly if its existing pages bring people in through Google. **I'm still learning how SEO works**, so this is my interpretation of how the ideas might fit together, not a claim that I've solved the technical side.
 
 Having looked at the current site, I can see it has individual pages for things like [HMO furniture packages](https://furnishingpacks.co.uk/hmo-furniture-packages/) and the [Malvern package](https://furnishingpacks.co.uk/package/malvern/), as well as other customer types. **I wouldn't suggest getting rid of those pages.** My idea is to make the way people *browse* more engaging while keeping those pages and their useful information.
+
+### A good example: the current “Choose a package” section
+
+In the mobile screenshot I shared, the existing site uses a numbered **“Choose a package”** card to explain the first step, with quite a lot of white space around it. I understand why that information is there, but I wonder if the space could do more for the visitor. Instead of only reading what to do, they could **start doing it** — choose a pack, see the price and move through the next steps without losing their place.
+
+That's the thinking behind my four-step section: **Your pack → Your quote → Your week → Send your quote**. It makes the explanation part of an actual journey towards getting in touch. I can't say it would increase conversions without testing, but I think it's worth exploring.
+
+This doesn't mean deleting useful written information. We could still have clear explanations, FAQs and links to relevant pages, including information displayed in sensible tabs or expandable sections. **SEO isn't just text on a page**; the existing URLs, headings, useful content, internal links and performance matter as well. My concept is about giving the important information a better place in the customer experience, not hiding it from visitors just so Google can see it.
 
 For example:
 
