@@ -50,9 +50,15 @@ Then open:
 
 Keep the terminal running while reviewing. Press **Ctrl+C** when finished. Use the local address above rather than double-clicking `index.html`, so the interactive JavaScript loads correctly.
 
-## What I'm planning to do next
+## What I'm planning to do next — a possible beta idea
 
-Two visual concepts will be added here to show possible next directions. They are **ideas for discussion, not completed pages or guaranteed features**. What is taken forward depends on company feedback, technical feasibility and priorities, including preserving useful existing website content and search visibility.
+**Future concept only. This is not part of the current alpha, not yet designed in detail, and not a confirmed feature.**
+
+The two reference screenshots show where the idea begins: the **Chevron package page** and the separate **quote journey**.
+
+At the moment, selecting **Add to quote** takes the visitor from the package view to another section that presents their chosen pack, quote and delivery-week selection. In a **possible later beta**, I'd like to explore whether those two experiences could flow together more naturally: the Chevron presentation could transition smoothly into the quote layout, with its package image moving towards the lower-left corner as the quote steps appear, creating the feeling of **one continuous interaction rather than two separate pages**.
+
+That is the direction, not a finished interaction design. The motion, layout and technical approach still need exploring, and it may change entirely after feedback. **Right now the priority is showing the alpha, collecting reactions and deciding which ideas are worth developing further.**
 
 ## About this alpha
 
