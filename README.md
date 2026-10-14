@@ -1,6 +1,6 @@
 # Furnishing Packs — Website & Logo Concept
 
-**ALPHA CONCEPT — NOT A FINISHED WEBSITE OR A LIVE COMMERCIAL SERVICE.**
+**ALPHA CONCEPT — NOT A FINISHED WEBSITE.**
 
 An early website and logo concept by **Ghaith**, created to demonstrate possible improvements to Furnishing Packs and invite company feedback. The design, content and interactions are exploratory: some are working demonstrations, while others still need refinement, validation or development. Nothing here should be treated as a final design, approved specification or committed feature.
 
