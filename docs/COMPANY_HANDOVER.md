@@ -8,38 +8,30 @@ The 3D room/furniture model was removed because its added loading delay was not 
 
 The earlier 3D and alternative site experiments, local Claude configuration and design-tool caches are excluded from the repository package.
 
-## Give the company access
+## Sharing the alpha
 
-Owner: **Syghx**. Repository: **furnishing-packs-alpha**.
+Repository: <https://github.com/Syghx/furnishing-packs-alpha>.
 
-Repository link: <https://github.com/Syghx/furnishing-packs-alpha>.
+The repository is **public**, so reviewers can open the link and download the ZIP without signing in or creating a GitHub account. GitHub displays the source files; it does **not** automatically run the website. Follow the [README](../README.md) to preview the site and the logo page locally.
 
-For a private repository:
+Anyone on the internet can also view or copy the public files. This is a review prototype, not a live customer site.
 
-1. Ask each company reviewer for their GitHub username.
-2. Open the repository, then **Settings → Collaborators → Add people**.
-3. Select the correct person and send the invitation.
-4. The reviewer accepts the invitation and signs in before opening the repository link.
+## Message to send to the company
 
-A private repository link alone does not grant access. Collaborators on a personally owned private repository receive write access as well as read access; agree the review arrangements with the company.
-
-Reference: [GitHub's collaborator instructions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository) and [personal repository permission levels](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository).
-
-## Message to send after the upload
-
-This message has been drafted, not sent. Send it after the source upload is complete and the reviewers have been invited.
+Draft only — not sent.
 
 > Hi team,
 >
-> I've prepared an alpha version of the Furnishing Packs website for your review: https://github.com/Syghx/furnishing-packs-alpha
+> I've put together an early alpha of some ideas for the Furnishing Packs website:
+> https://github.com/Syghx/furnishing-packs-alpha
 >
-> The repository includes the source files and a README with requirements and step-by-step instructions for running it on your own computer. Once you have access, choose Code → Download ZIP, extract the files and follow the README.
+> It's not a finished redesign. I wanted to show a few ways customers could explore packages, customise furniture and put together a quote, and get your feedback on what might be worth developing.
 >
-> This version demonstrates the furniture ranges, pack configuration, catalogue and quote journey. I removed the 3D model because it added loading delays without enough useful value; the alpha now uses room and product photographs.
+> The repository is public, so you don't need a GitHub account to view or download it. The README explains how to open the website and the separate logo concept on your computer.
 >
-> Please note that the quote form opens an email draft rather than submitting to a connected enquiry system. Pricing and item changes remain subject to confirmation.
+> The quote is only a demonstration and opens an email draft; it isn't connected to the live ordering system.
 >
-> I'd welcome your feedback on the layout, clarity of the pack information and ease of preparing a quote.
+> I'd be interested to hear what you think.
 >
 > Thanks,
 > Ghaith
