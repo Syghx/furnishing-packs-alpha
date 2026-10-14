@@ -7,8 +7,8 @@ This is a **very early concept**, not a finished website. I've been exploring wa
 - **Homepage:** Show the packages straight away, with room photos and an easy way to switch between them. My idea is to make better use of the first screen.
 - **Pack selection:** Change the property type and number of bedrooms while browsing, so customers can quickly find what's relevant.
 - **Furniture catalogue:** Browse packs visually, turn pages and enlarge furniture photos. This could sit alongside the existing product pages.
-- **Customisation:** Try adding, removing or changing furniture and see an indicative quote.
-- **Four-step quote journey:** **Pick a pack → Review the quote → Choose a preferred delivery week → Send the request.** The idea is to help customers *do* the steps rather than just read about them.
+- **Multiple packs and customisation:** Add several packages to one quote, change quantities and mix in individual pieces from other packs. The alpha shows indicative pack totals; item changes still need pricing confirmed.
+- **Four-step quote journey:** **Pick a pack → Review the quote → Choose a preferred delivery week → Send the request.** Customers can **copy the whole quote**—including packages, furniture quantities and a reference number—rather than typing it out themselves. The aim is to make enquiries and follow-ups easier.
 - **Logo:** A separate [logo concept](brand/logo.html) for feedback.
 
 ## How this might fit the current site
@@ -23,7 +23,8 @@ The alpha **has not preserved or tested the full site's SEO setup**, and I can't
 
 ## Ideas for a possible beta
 
-- **Downloadable catalogue:** A PDF customers could save or share, using approved, up-to-date product details.
+- **Downloadable catalogue:** A PDF customers could save or share, with approved product details.
+- **Accurate item pricing and saved references:** Use approved prices for each furniture item and any changes, so totals reflect the actual mix of packages and quantities. Save quotes against a reference customers and the team can use when following up.
 - **Smoother pack-to-quote transition:** Explore whether the Chevron package view could flow into the quote steps in one continuous motion instead of feeling like separate sections.
 
 Neither is built or agreed for development yet.
@@ -44,4 +45,4 @@ py -m http.server 8000 --bind 127.0.0.1
 
 If port 8000 is unavailable, try 8080 in both the command and address. Press **Ctrl+C** to stop the server. GitHub shows the source files; it does not automatically host a live preview.
 
-**Please note:** This is for feedback only. The quote opens an email draft, not a live ordering system. Prices, delivery options and changes to packs still need company confirmation. More technical detail is in the [validation notes](docs/VALIDATION.md).
+**Please note:** This is for feedback only. The quote opens an email draft, not a live ordering system. The alpha's reference number is temporary, not a saved quote that the team can retrieve later. Prices, delivery options and changes to packs still need company confirmation. More technical detail is in the [validation notes](docs/VALIDATION.md).
