@@ -2,11 +2,11 @@
 
 Repository: <https://github.com/Syghx/furnishing-packs-alpha>.
 
-Owner: **Syghx**. Visibility: **private**. The alpha is prepared for the `main` branch.
+Owner: **Syghx**. Visibility: **public**. The alpha is prepared for the `main` branch.
 
 ## Company reviewers
 
-Accept your repository invitation and sign in to GitHub. Open the repository, choose **Code → Download ZIP**, extract it, and follow [the README](../README.md) to run the website locally. Reviewers do not need GitHub CLI or Git to use the ZIP download route.
+No GitHub account or invitation is needed. Open the public repository, choose **Code → Download ZIP**, extract it, and follow [the README](../README.md) to run the website and logo presentation locally. Reviewers do not need Git or GitHub CLI for the ZIP download route.
 
 For access and a draft message to the company, see [Company handover](COMPANY_HANDOVER.md).
 
@@ -69,6 +69,6 @@ You can add or update a README after the initial upload. In this repository, ope
 & "C:\Program Files\GitHub CLI\gh.exe" repo view Syghx/furnishing-packs-alpha --web
 ```
 
-Confirm the owner is Syghx, visibility is PRIVATE and the default branch is main. Check that the README renders and `index.html`, `js` and `brand` are present. Uploading the source to GitHub does not itself host a running website.
+Confirm the owner is Syghx, visibility is PUBLIC and the default branch is main. Check that the README renders and `index.html`, `js` and `brand` are present. Making the repository public lets anyone browse/download the source; it does not automatically host a working website. Only publish a browser preview separately if that is wanted.
 
 References: [GitHub CLI authentication status](https://cli.github.com/manual/gh_auth_status), [repository viewing](https://cli.github.com/manual/gh_repo_view), and [Git configuration](https://git-scm.com/docs/git-config).
