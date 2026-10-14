@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Furnishing Packs logo</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Instrument+Serif:ital@0;1&family=Outfit:wght@800&display=swap">
+<style>
+  :root { --porcelain: #f3f3f1; --white: #fff; --ink: #111213; --ink-2: #4e5156; --ink-3: #6c6f75; --champagne: #c9a87c; --hair: rgba(17, 18, 19, 0.1); --gutter: clamp(16px, 4vw, 56px); }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--porcelain); color: var(--ink); font: 400 15px/1.55 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 1240px; margin: 0 auto; padding: 56px var(--gutter) 96px; display: grid; gap: 56px; }
+  h1 { font: 500 clamp(36px, 5vw, 64px)/1 'Geist', sans-serif; letter-spacing: -0.05em; }
+  h1 em { font: italic 400 1.06em/0.9 'Instrument Serif', serif; letter-spacing: -0.02em; }
+  h2 { font-size: 13px; font-weight: 500; color: var(--ink-3); margin-bottom: 14px; }
+  p.lede { max-width: 62ch; margin-top: 16px; color: var(--ink-2); font-size: 17px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .tile { display: grid; place-items: center; min-height: 240px; padding: 32px; border-radius: 24px; background: var(--white); box-shadow: inset 0 0 0 1px var(--hair); }
+  .tile.ink { background: var(--ink); color: #fff; }
+  .tile.photo { position: relative; overflow: hidden; background: #333 url('https://cdn-furnishingpacks.b-cdn.net/wp-content/uploads/2025/09/Gemini_Generated_Image_5t7qvm5t7qvm5t7q-1.jpg') center / cover; }
+  .tile.photo .lockup { padding: 14px 20px; border-radius: 14px; background: rgba(255, 255, 255, 0.84); backdrop-filter: blur(16px); }
+  .tile.wide { grid-column: 1 / -1; min-height: 320px; }
+  .lockup { display: inline-flex; align-items: center; gap: 0.36em; font: 800 34px/1 'Outfit', sans-serif; letter-spacing: -0.035em; }
+  .lockup img { width: 1.25em; height: 1.25em; }
+  .lockup.big { font-size: clamp(40px, 7vw, 92px); }
+  .word { white-space: nowrap; }
+  /* The full stop is the pack: a small champagne square. */
+  .word i { display: inline-block; width: 0.2em; height: 0.2em; margin-left: 0.05em; border-radius: 0.03em; background: var(--champagne); }
+  .stack { display: grid; justify-items: center; gap: 14px; font: 800 28px/1 'Outfit', sans-serif; letter-spacing: -0.035em; }
+  .stack img { width: 72px; height: 72px; }
+  .sizes { display: flex; align-items: flex-end; gap: 28px; flex-wrap: wrap; justify-content: center; }
+  .sizes figure { display: grid; justify-items: center; gap: 10px; font-size: 12px; color: var(--ink-3); }
+  .tab { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 10px 10px 0 0; background: #dedfe2; font-size: 13px; color: #222; }
+  .tab img { width: 16px; height: 16px; }
+  .notes { display: grid; gap: 10px; max-width: 70ch; }
+  .notes li { margin-left: 18px; color: var(--ink-2); }
+  .notes b { color: var(--ink); font-weight: 500; }
+  .alt { display: grid; justify-items: center; gap: 16px; text-align: center; }
+  .alt small { font-size: 13px; color: var(--ink-3); max-width: 30ch; }
+  .tag { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--champagne); color: var(--ink); font-size: 12px; font-weight: 500; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>The doorway and <em>the pack.</em></h1>
+    <p class="lede">One idea, the way the strongest marks work: a doorway, the shape every room on the site sits in, with the pack arriving on its threshold. The same champagne square closes the name, as its full stop. It reads at the size of a browser tab, in one colour, and on a photograph.</p>
+  </header>
+
+  <section>
+    <h2>The logo</h2>
+    <div class="grid">
+      <div class="tile wide"><span class="lockup big"><img src="mark.svg" alt=""><span class="word">furnishing packs<i></i></span></span></div>
+      <div class="tile ink"><span class="lockup"><img src="mark-reversed.svg" alt=""><span class="word">furnishing packs<i></i></span></span></div>
+      <div class="tile photo"><span class="lockup"><img src="mark.svg" alt=""><span class="word">furnishing packs<i></i></span></span></div>
+      <div class="tile"><span class="stack"><img src="mark.svg" alt=""><span class="word">furnishing packs<i></i></span></span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The mark at every size</h2>
+    <div class="grid">
+      <div class="tile">
+        <div class="sizes">
+          <figure><img src="mark.svg" alt="" width="128" height="128"><figcaption>128</figcaption></figure>
+          <figure><img src="mark.svg" alt="" width="64" height="64"><figcaption>64</figcaption></figure>
+          <figure><img src="mark.svg" alt="" width="32" height="32"><figcaption>32</figcaption></figure>
+          <figure><img src="mark.svg" alt="" width="16" height="16"><figcaption>16</figcaption></figure>
+        </div>
+      </div>
+      <div class="tile ink">
+        <div class="sizes">
+          <figure><img src="mark-reversed.svg" alt="" width="128" height="128"><figcaption style="color:rgba(255,255,255,.6)">128</figcaption></figure>
+          <figure><img src="mark-reversed.svg" alt="" width="48" height="48"><figcaption style="color:rgba(255,255,255,.6)">48</figcaption></figure>
+          <figure><img src="mark-reversed.svg" alt="" width="20" height="20"><figcaption style="color:rgba(255,255,255,.6)">20</figcaption></figure>
+        </div>
+      </div>
+      <div class="tile"><span class="tab"><img src="favicon.svg" alt="">Furnishing Packs | Furniture packs</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Two directions I considered, and why the doorway wins</h2>
+    <div class="grid">
+      <div class="tile">
+        <div class="alt">
+          <svg width="96" height="96" viewBox="0 0 48 48" aria-hidden="true"><path d="M8.5 46V24a15.5 15.5 0 0 1 31 0v22" fill="none" stroke="#111213" stroke-width="4"/><rect x="19.5" y="37" width="9" height="9" rx="1.2" fill="#c9a87c"/></svg>
+          <small><b>Outline doorway.</b> Lighter and more delicate, but the thin line disappears at tab size.</small>
+        </div>
+      </div>
+      <div class="tile">
+        <div class="alt">
+          <svg width="96" height="96" viewBox="0 0 48 48" aria-hidden="true"><path fill="#111213" fill-rule="evenodd" d="M6 46V24a18 18 0 0 1 36 0v22z"/><text x="24" y="38" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="800" font-size="17" fill="#fff" letter-spacing="-0.6">fp</text></svg>
+          <small><b>Monogram in an arch.</b> Clear, but letters in a shape are what everyone does; it says less.</small>
+        </div>
+      </div>
+      <div class="tile">
+        <div class="alt">
+          <img src="mark.svg" alt="" width="96" height="96">
+          <small><span class="tag">Recommended</span><br><b>Doorway and pack.</b> One idea, our own shape, bold enough for a van, a jacket or a 16-pixel tab.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes">
+    <h2>Using it</h2>
+    <ul>
+      <li><b>Colours:</b> ink #111213 and champagne #C9A87C; reversed in white on dark. The square is always champagne.</li>
+      <li><b>Name:</b> lower case in Outfit ExtraBold, as now, ending in the champagne square instead of a full stop.</li>
+      <li><b>Space:</b> keep clear space around the mark of at least the width of the square.</li>
+      <li><b>Before print:</b> have a designer convert the name to outlines and add CMYK and Pantone matches for the van and printed items.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

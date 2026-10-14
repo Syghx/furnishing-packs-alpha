@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Furnishing Packs">
+  <!-- The doorway: a bold arch with its opening cut away. -->
+  <path fill="#111213" fill-rule="evenodd" d="M6 46V24a18 18 0 0 1 36 0v22H33V24a9 9 0 0 0-18 0v22z"/>
+  <!-- The pack, arriving on the threshold. -->
+  <rect x="19.5" y="37" width="9" height="9" rx="1.2" fill="#c9a87c"/>
+</svg>
