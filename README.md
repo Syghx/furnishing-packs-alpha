@@ -30,7 +30,7 @@ Feedback is most useful on **clarity, ease of navigation, package presentation a
 
 ## What I'm planning to do next — possible beta idea
 
-**A direction to explore later, not something built in this alpha or promised for beta.**
+**A direction to explore later, not something built in this alpha.**
 
 This idea connects the **Chevron package view** and the **quote journey**, which currently appear as separate parts of the experience.
 
