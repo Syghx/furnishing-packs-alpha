@@ -1,39 +1,50 @@
-# Furnishing Packs: website concept
+# Furnishing Packs — Website & Logo Concept
 
-A static site (HTML, CSS and JS modules). To preview it, use the "rooms" config in `.claude/launch.json` (http://localhost:5181).
-Photos load from the Furnishing Packs CDN. Prices and contents come from furnishingpacks.co.uk (October 2026).
+An alpha website by **Ghaith**, showing ideas to refresh the Furnishing Packs website and logo. It is a demonstration for company review and feedback.
 
-## The page, top to bottom
-1. **Hero:** the selected pack's room fills the screen at full strength (WebGL): no wash over the photo, only a light shade at the foot for the white pack name. The intro line is kept only as the page's hidden main heading, for search engines and screen readers. Edges are kept crisp by contrast-adaptive sharpening (stronger the more a photo is enlarged), and the slow push-in starts near the photo's real size. Slight pointer parallax. Five packs have room photos only about 1000px wide; re-exporting them at about 2400px wide would make the hero fully sharp on large screens. A small glass "Explore [pack]" button opens the pack; hovering it shows the finish and a one-line description. The one button reads "Step inside [pack]" ⟶, on frosted glass; on hover the arrow stretches. The backup photo shows until the renderer has drawn, so the hero is never blank.
-   - Visitors change pack with the numbered tabs (a white pill glides to the chosen one), the arrows, the keyboard arrows or a swipe; the room changes with an ink-wash dissolve. On phones the arrows hide and the tabs swipe.
-2. (The pack section's sheet slides straight up over the hero.)
-3. **The pack** (inspired by landonorris.com's on track / off track page): who it's for is a word in the price line ("for a 1 bedroom *home to let* ⌄"), right where the eyes are rather than a bar at the top that a fast scroll passes by; tapping it lists the five categories with their pack counts and starting prices, and its champagne underline draws itself once as it reaches the middle of the screen. Along the bottom, a strip of every pack in that category along the bottom (photo, name, price, lowest first; tap to jump; on phones it sits above the pack). One pack at a time in the middle (name, price, a − n + bedroom control, arrows, Explore and Add to quote), with the living room as an arch on the left and the bedroom on the right. Hovering an arch opens it wide with a bulleted list of what's in that room; clicking shows every photo. On phones the rooms sit side by side below the pack, the first tap opens a room and a swipe changes pack.
-4. **Your order, step by step:** on screens tall enough, it pins and opens with the pack's bedroom filling the screen ("Your property, ready to let."), which pulls back into the Ready to let card while the steps pop in, as on landonorris.com. The photo starts only as large as it stays sharp. On phones the photo pulls back into a card as it scrolls past. Then a live tracker over the chosen packs' living rooms (one soft-focus panel each). The quote starts empty, so the progress is real.
-   - (1) Your pack: the pack shown above, with its price, and one split button. "Add [pack]" adds it. The + beside it opens the categories; choosing one swaps them for a back arrow and that category's packs (photo, name, price, at that category's pricing), all in view, one tap each, with "Build your own in the quote" underneath. The arrow brings the categories back. A pack already in the quote for that category is never offered twice; its button reads "In your quote" and leads there.
-   - (2) Your quote: only the live total, and "Customise or build your own", which goes to the quote.
-   - (3) Your week: ten weeks to tap; the three dots open a month calendar where each row is a week, up to a year ahead.
-   - (4) Ready to let: the week, over the pack's bedroom, and "Send my quote", so the momentum carries straight on to the form.
-   - **The step you're on comes forward:** the other steps stay in view, smaller and dimmer, behind it; from 1200px wide it also widens (below that there isn't room for the steps behind it to stay readable). In a narrow card the type and buttons tighten instead of clipping, and in a wide one the packs sit three to a row so the card fits a 1366×768 laptop. As each step is done the next one comes forward by itself, and a tap brings any step forward. Each step ticks off with a spring, a point of light rides along the progress line, and adding a pack raises a "+1 [pack]" tag.
-   - **Each step sends the customer to the next:** when the step in front is done, its tick becomes a champagne "Next →". The first pack brings step 2 (their quote) forward rather than skipping it; Next there brings step 3; choosing a week brings step 4 with "Send my quote". Next also folds away an open pack list or calendar, glides the page so the steps are on screen if needed (on phones, to the next card) and moves keyboard focus into the next step. "How it works" in the menu lands where all four steps are visible, not at the start of the photo zoom.
-5. **Quote:** what every pack includes as bullets, then line items, the delivery week (kept in step with step 3, and part of "Copy quote" and the email), subtotal, VAT at 20% and total including VAT. Each line can be customised: take pieces out, add extras, or add a piece from any other pack. Every piece is added up. Changes are priced in the quote because per-piece prices aren't published. "Copy quote" is included.
-6. FAQ.
-7. **The catalogue** (replaces "Who we furnish for"): a magazine of every pack, page by page. The cover is a masthead in the wordmark with a few words in wide capitals over one room; facing it, the contents (cheapest first, with prices and page numbers, one tap to each). Each pack is a spread: on the left the whole bedroom, the name, the description, the categories it suits (each opens that pack in the pack section) and the living room; on the right every piece as a cut-out (the white product backgrounds melt into the paper page with a multiply blend, no new image files), notes for HMO and student lets, prices by size, and a size choice with Add to quote (never twice). Two pages to a view from 1100px, one below (a wide single page puts the photo beside the words; phones show pieces two to a row). Above the book, only what turns the pages: Contents, back, and the next pack by name. No running head, page numbers or repeated words; every turn starts at the top of the new spread, and a spread fits a laptop screen (on the left page the name and words sit beside the living room, or the pack's board of every piece, under the bedroom). Arrows, the keyboard, a swipe and, on phones, a row under the book turn the pages; far jumps fade instead of racing past. The front page's own controls (pack strip, arrows, big name) step away as soon as the visitor scrolls on, and return at the top. The book fits the height of the spread in view. It is built when the browser is idle, pages off screen are not drawn, and photos load only as their pages come near, so it costs the first load almost nothing; all its text is in the page for search engines. The nav's "Catalogue" and step 1's "Browse the catalogue" land straight on the book.
-8. Footer.
+Repository: <https://github.com/Syghx/furnishing-packs-alpha> (private; reviewers need access).
 
-**Buttons:** our own style, not pills. They have softly squared corners and a fine rule before the icon, and a champagne fill rises through them like liquid on hover. The nav, arrows, tabs and tracks use the same squared language.
+## My ideas for the current website
 
-**Getting around:** past the hero the nav folds into a small island in the top-left corner, just the logo and an arrow, out of the way of reading (a champagne square on the arrow shows the quote has something in it). The arrow opens Packs, Pricing, How it works, FAQ, Catalogue, the phone number and Quote, which fold away again on a link, on Escape, on a tap elsewhere or on scrolling. On phones the island is the logo and the arrow, opening a short menu; the bar at the bottom carries Call and Quote. Short hops glide; long jumps (the nav, "Send my quote") fade softly through the page colour and land straight on the section, so "Quote" never drags you through the whole page.
+Starting point: [the existing Furnishing Packs website](https://furnishingpacks.co.uk/). This prototype shows how the following ideas could be integrated into it:
 
-The **pack sheet** shows the price by bedroom count, the contents, and bedroom and living-room cards. A "+" on each card opens every photo of that room.
+1. **An interactive landing page.** Visitors see the furniture packages immediately, explore room photographs and switch between packs from the opening section.
+2. **Browsing for each customer type.** Let landlords, letting agents, HMO operators and other customers explore suitable packs and configurations. During integration, retain the existing sector pages, URLs and useful content as search entry points; Google rankings would need monitoring.
+3. **A more flexible quote journey.** Customers can select packs, change quantities, add or remove individual items, bring in pieces from another pack and choose a preferred delivery week. Item changes are recorded for the team to price and confirm.
+4. **A visual furniture catalogue.** Customers can inspect the furniture and room photographs while deciding what belongs in their pack.
+5. **A refreshed logo.** The logo page explains the proposed mark, its design thinking and variations.
 
-**Quote customising** works like ordering at a counter: every piece is a photo card with − / +, and any pack's pieces can be added as cards. Photos come from the pack galleries (exact name first, then the same kind of piece from the same pack). Pieces with no photo on the site (desks, desk chairs, the orthopaedic mattress, the armchair) show a named tile instead of a borrowed photo.
+## Open the website locally
 
-## Files
-- `index.html`: markup and all styles (tokens at the top).
-- `js/data.js`: the one file to edit when packs, prices, photos or sectors change.
-- `js/main.js`: hero UI, loader, smooth scroll (Lenis), the pack section, the order tracker, pack sheet, quote and photo viewer.
-- `js/hero-gl.js`: the hero renderer: the room photo and the ink-wash dissolve between packs.
+1. On GitHub, choose **Code → Download ZIP**, then extract it.
+2. Open a terminal in the extracted folder containing `index.html` and this README. Install [Python 3](https://www.python.org/downloads/) if needed.
+3. Start the preview using the command for your computer:
 
-## Before going live
-- The quote form isn't connected yet. Wire the submit handler in main.js to Fluent Forms or email.
-- A shareable Artifact link needs the photos bundled with the page, because Artifacts block images from other sites.
+**Windows — PowerShell:**
+
+```powershell
+py -3 -m http.server 5181 --bind 127.0.0.1
+```
+
+If Windows recognises `python` instead of `py`, use `python -m http.server 5181 --bind 127.0.0.1`.
+
+**macOS / Linux:**
+
+```bash
+python3 -m http.server 5181 --bind 127.0.0.1
+```
+
+Then open:
+
+- **Website:** <http://127.0.0.1:5181/>
+- **Logo and design explanation:** <http://127.0.0.1:5181/brand/logo.html>
+
+Keep the terminal running while reviewing. Press **Ctrl+C** when finished. Use the local address above rather than double-clicking `index.html`, so the interactive JavaScript loads correctly.
+
+## About this alpha
+
+The **3D model was removed** because it added loading delays without enough useful value. This version focuses on room and product photographs. The small WebGL hero effect transitions between flat photographs; it does not display a 3D model.
+
+Internet access is needed for externally hosted photographs and fonts. The quote form opens an email draft rather than submitting to a connected enquiry system. Item changes, prices and delivery arrangements remain subject to confirmation.
+
+The supplied website is preserved on the [original-alpha backup branch](https://github.com/Syghx/furnishing-packs-alpha/tree/original-alpha). The website application files on `main` match that original; the README and handover documentation are maintained separately.

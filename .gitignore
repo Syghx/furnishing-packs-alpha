@@ -1,0 +1,22 @@
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editor, assistant and operating-system files
+.claude/
+.impeccable/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Generated files and local dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.zip
