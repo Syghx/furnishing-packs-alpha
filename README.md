@@ -24,7 +24,7 @@ The alpha **has not preserved or tested the full site's SEO setup**, and I can't
 ## Ideas for a possible beta
 
 - **Downloadable catalogue:** A PDF customers could save or share, with approved product details.
-- **Accurate item pricing and saved references:** Use approved prices for each furniture item and any changes, so totals reflect the actual mix of packages and quantities. Save quotes against a reference customers and the team can use when following up.
+- **Actual, easy-to-update pricing:** Use the company's confirmed prices for packages and individual furniture items, so customisations update the quote accurately. I'd also explore a simple way for the team to maintain prices without having to change the website code each time.
 - **Smoother pack-to-quote transition:** Explore whether the Chevron package view could flow into the quote steps in one continuous motion instead of feeling like separate sections.
 
 Neither is built or agreed for development yet.
