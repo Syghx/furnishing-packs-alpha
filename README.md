@@ -1,41 +1,63 @@
-# Furnishing Packs — Website & Logo Concept
+# Furnishing Packs — Website Improvement Concepts
 
-**ALPHA CONCEPT — NOT A FINISHED WEBSITE.**
+**VERY EARLY ALPHA · CONCEPT FOR REVIEW · NOT A FINISHED WEBSITE**
 
-An early website and logo concept by **Ghaith**, created to demonstrate possible improvements to Furnishing Packs and invite company feedback. The design, content and interactions are exploratory: some are working demonstrations, while others still need refinement, validation or development. Nothing here should be treated as a final design, approved specification or committed feature.
+Created by **Ghaith** to explore ideas for the [existing Furnishing Packs website](https://furnishingpacks.co.uk/). This is an early, experimental prototype: its layout, interactions, content and technical implementation are **not final**. It is intended to show design thinking, invite feedback and help decide what—if anything—should move forward.
 
-Repository: <https://github.com/Syghx/furnishing-packs-alpha> (private; reviewers need access).
+**The intention is to build on the existing website, not discard it.** Furnishing Packs already has package listings, customer-sector pages and a quotation service. These concepts look at making the journey from exploring a pack to requesting a quote more visual, flexible and connected.
 
-## My ideas for the current website
+## What's new in this alpha — and why
 
-Starting point: [the existing Furnishing Packs website](https://furnishingpacks.co.uk/). This alpha explores how the following ideas **might** be integrated into the existing website, rather than proposing a finished replacement:
+| Concept demonstrated | Purpose | How it builds on the existing website |
+| --- | --- | --- |
+| **Interactive landing page** | Make the available packages visible immediately, with room imagery and quick switching between packs. | Goes beyond a conventional introduction and package listing by inviting customers to explore from the opening screen. |
+| **Customer-type and bedroom selection** | Let visitors change their property type and bedroom count while exploring relevant packs and indicative prices. | Brings choices closer to the package itself; the current site's valuable HMO, landlord, serviced-accommodation, student and social-housing pages would still be retained. |
+| **Customisable package and quote** | Explore changing quantities, adding or removing individual items, and combining pieces while seeing an indicative subtotal, VAT and total. | Makes possible adjustments visible during the journey rather than relying solely on contacting the team to discuss changes. |
+| **Guided quote journey** | Present the chosen pack, quote summary, preferred delivery week and enquiry action as understandable steps. | Builds on the existing choose-a-pack → request-a-quote → arrange-delivery process by giving customers a clearer visual overview. A chosen week is **a preference, not a confirmed booking**. |
+| **Visual furniture catalogue** | Let customers browse packages, inspect individual furniture photographs and move from the catalogue into a quote. | Adds a more exploratory, close-up product experience alongside the existing package pages. |
+| **Logo and identity exploration** | Show one possible direction for a refreshed visual identity. | A design proposal only—not a replacement or an approved rebrand. |
 
-1. **An interactive landing page.** Visitors see the furniture packages immediately, explore room photographs and switch between packs from the opening section.
-2. **Browsing for each customer type.** Homes to let, HMOs, serviced accommodation, student lets and social housing: the customer type sits in the price line, and one tap changes it, with that type's packs and prices. During integration, retain the existing sector pages, URLs and useful content as search entry points; Google rankings would need monitoring.
-3. **A quote that builds step by step.** Choose a pack, see the quote, pick a delivery week and send it; each step leads to the next. Customers can change quantities, add or remove individual items and bring in pieces from another pack. A pack already in the quote is never offered twice, and every line adds up to a subtotal, VAT at 20% and a total. Item changes are recorded for the team to price and confirm.
-4. **A furniture catalogue, page by page.** Every pack, every piece and every price, turned like a printed catalogue. Any photograph enlarges with a click, and each pack can be added to the quote from its own page.
-5. **A refreshed logo.** The logo page explains the proposed mark, its design thinking and variations.
+These are **alpha demonstrations, not finished features or measured improvements**. Pricing, catalogue information, interactions and the customer journey would all need review before commercial use.
 
-## What to try
+## What reviewers can try
 
-- Switch packs on the opening photograph, then scroll into the pack below it.
-- Tap the customer type in the price line (for example *home to let*) to see another type's packs.
-- Add a pack, then follow **Next** through the four steps to the quote.
-- Open **Catalogue** in the menu, turn the pages and click any photograph.
+1. Switch packages on the opening screen and change the customer type or bedroom count.
+2. Explore a package, adjust its contents and follow the quote steps.
+3. Open the catalogue, turn its pages and enlarge the furniture photographs.
+4. Visit the [logo concept page](brand/logo.html).
 
-## Open the website locally
+Feedback is most useful on **clarity, ease of navigation, package presentation and whether the ideas would genuinely help customers**.
 
-1. On GitHub, choose **Code → Download ZIP**, then extract it.
-2. Open PowerShell or another terminal inside the extracted folder containing `index.html` and this README. Install [Python 3](https://www.python.org/downloads/) only if your computer does not already have it.
-3. Start the preview using the command for your computer:
+## What I'm planning to do next — possible beta idea
 
-**Windows — PowerShell:**
+**A direction to explore later, not something built in this alpha or promised for beta.**
+
+The two concept screenshots illustrate the **Chevron package view** and the **quote journey** that currently appear as separate parts of the experience.
+
+One possible future improvement is a **single, continuous transition** between them. After a customer selects *Add to quote*, the Chevron package presentation could smoothly move and settle into the **lower-left area of the quote layout**, while the quote summary and preferred delivery-week steps appear around it. Instead of feeling like a jump to another page, the two stages would feel like **one connected motion**.
+
+This is only the initial idea. The animation, positioning, mobile behaviour, accessibility and performance implications have **not been designed or resolved**. Company feedback may change the approach completely.
+
+### Possible next steps — subject to feedback
+
+1. **Review the alpha:** Identify which concepts are useful, confusing or unnecessary.
+2. **Refine the strongest ideas:** Confirm accurate product data, responsive design, usability and accessibility.
+3. **Scope any beta:** Consider the seamless package-to-quote transition and real enquiry/quote integrations only if worthwhile.
+4. **Protect what already works:** Preserve existing customer-sector content, useful URLs and search visibility; any SEO impact would need evaluation rather than assumptions.
+
+**No final scope, delivery date or implementation approach has been agreed.**
+
+## How to open the prototype
+
+1. With repository access, choose **Code → Download ZIP** on GitHub and extract it.
+2. Open a terminal in the extracted folder containing `index.html`.
+3. Run the command for your operating system.
+
+**Windows (PowerShell):**
 
 ```powershell
 py -m http.server 8000 --bind 127.0.0.1
 ```
-
-If Windows recognises `python` instead of `py`, use `python -m http.server 8000 --bind 127.0.0.1`. If Windows blocks port 8000, try port 8080 in the command and website address instead.
 
 **macOS / Linux:**
 
@@ -43,27 +65,17 @@ If Windows recognises `python` instead of `py`, use `python -m http.server 8000 
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Then open:
+If Python is not installed, see [python.org](https://www.python.org/downloads/). On Windows, if `python` works but `py` does not, replace `py` with `python`. If port 8000 is blocked, try 8080 and use that port in the address.
 
-- **Website:** <http://127.0.0.1:8000/>
-- **Logo and design explanation:** <http://127.0.0.1:8000/brand/logo.html>
+Open **http://127.0.0.1:8000/** in your browser. The [logo concept](brand/logo.html) is also available from the site. Keep the terminal open while reviewing; press **Ctrl+C** to stop the server.
 
-Keep the terminal running while reviewing. Press **Ctrl+C** when finished. Use the local address above rather than double-clicking `index.html`, so the interactive JavaScript loads correctly.
+## Important alpha limitations
 
-## What I'm planning to do next — a possible beta idea
+- **Not live or production-ready.** The quotation action prepares an email draft; it does not submit to a connected enquiry or ordering system.
+- **Prices and availability are not guaranteed.** Package contents, customisations, VAT calculations and delivery arrangements need company validation and confirmation.
+- **Visuals are for exploration.** The 3D furniture model was removed due to loading costs; the prototype uses product/room photography and a lightweight visual transition instead.
+- Some photographs and fonts need an internet connection. Full cross-device testing, accessibility review and performance assessment are still outstanding.
 
-**Future concept only. This is not part of the current alpha, not yet designed in detail, and not a confirmed feature.**
+This repository is **private**; reviewers need GitHub access. The untouched first upload remains on the [original-alpha branch](https://github.com/Syghx/furnishing-packs-alpha/tree/original-alpha). More detailed checks are in [validation notes](docs/VALIDATION.md) and reviewer instructions in [company handover](docs/COMPANY_HANDOVER.md).
 
-The two reference screenshots show where the idea begins: the **Chevron package page** and the separate **quote journey**.
-
-At the moment, selecting **Add to quote** takes the visitor from the package view to another section that presents their chosen pack, quote and delivery-week selection. In a **possible later beta**, I'd like to explore whether those two experiences could flow together more naturally: the Chevron presentation could transition smoothly into the quote layout, with its package image moving towards the lower-left corner as the quote steps appear, creating the feeling of **one continuous interaction rather than two separate pages**.
-
-That is the direction, not a finished interaction design. The motion, layout and technical approach still need exploring, and it may change entirely after feedback. **Right now the priority is showing the alpha, collecting reactions and deciding which ideas are worth developing further.**
-
-## About this alpha
-
-The **3D model was removed** because it added loading delays without enough useful value. This version focuses on room and product photographs. The small WebGL hero effect transitions between flat photographs; it does not display a 3D model.
-
-Internet access is needed for externally hosted photographs and fonts. The quote form opens an email draft rather than submitting to a connected enquiry system. Item changes, prices, VAT calculations and delivery arrangements must be checked and confirmed before any real customer use. The alpha has not been presented as production-ready or fully tested.
-
-`main` holds the latest version. The first upload is preserved unchanged on the [original-alpha backup branch](https://github.com/Syghx/furnishing-packs-alpha/tree/original-alpha). Checks and changes are recorded in [docs/VALIDATION.md](docs/VALIDATION.md); reviewer access and the handover message are in [docs/COMPANY_HANDOVER.md](docs/COMPANY_HANDOVER.md).
+**The purpose of this alpha is to start a useful discussion about possibilities—not to present a completed solution.**
