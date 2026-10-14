@@ -32,7 +32,7 @@ Feedback is most useful on **clarity, ease of navigation, package presentation a
 
 **A direction to explore later, not something built in this alpha or promised for beta.**
 
-The two concept screenshots illustrate the **Chevron package view** and the **quote journey** that currently appear as separate parts of the experience.
+This idea connects the **Chevron package view** and the **quote journey**, which currently appear as separate parts of the experience.
 
 One possible future improvement is a **single, continuous transition** between them. After a customer selects *Add to quote*, the Chevron package presentation could smoothly move and settle into the **lower-left area of the quote layout**, while the quote summary and preferred delivery-week steps appear around it. Instead of feeling like a jump to another page, the two stages would feel like **one connected motion**.
 
