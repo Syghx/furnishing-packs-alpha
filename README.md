@@ -15,15 +15,25 @@ The team mentioned that it may be more practical to take **parts of this concept
 
 These are ideas shown through a working prototype, not features ready to be added to the live website. I'd particularly like feedback on whether they make the customer journey simpler.
 
-## How it could work with the current site
+## How I imagine this working with the current website
 
-I know protecting the website's Google rankings is important. **I haven't worked with SEO in depth myself**, so this is my understanding of it rather than a technical recommendation, and I'd want someone with SEO experience to check it.
+I understand why the team is cautious about changing the whole website, particularly if its existing pages bring people in through Google. **I'm still learning how SEO works**, so this is my interpretation of how the ideas might fit together, not a claim that I've solved the technical side.
 
-From what I understand, we don't necessarily need to remove existing pages to introduce new ways of browsing. For example, the **catalogue could sit alongside the current package pages**: customers could turn through the furniture visually and still follow normal links to the original package pages, which would keep their own addresses and useful information. The existing landlord, HMO and other sector pages could stay too. The catalogue would be an extra way in, not a replacement for pages that might already bring people from Google.
+Having looked at the current site, I can see it has individual pages for things like [HMO furniture packages](https://furnishingpacks.co.uk/hmo-furniture-packages/) and the [Malvern package](https://furnishingpacks.co.uk/package/malvern/), as well as other customer types. **I wouldn't suggest getting rid of those pages.** My idea is to make the way people *browse* more engaging while keeping those pages and their useful information.
 
-I'm also looking at how the space on the current homepage is used. To me, some areas feel quite open without immediately showing customers the actual furniture or giving them a clear next step. I'd like to use more of that first view to show the packages and let people interact with them straight away. The same goes for navigation: perhaps we can make the journey more direct instead of asking visitors to click through several places just to start exploring. **That's a design observation, not proof that the current site is losing customers**—it would need real visitor data and testing.
+For example:
 
-My interpretation is that changing the presentation doesn't have to mean throwing away the existing search structure. But keeping the same pages alone doesn't guarantee rankings either; the team would need to check performance, links, content and Google Search Console before making any live changes. [Google's guidance on JavaScript websites](https://developers.google.com/search/docs/fundamentals/get-started-developers) is a useful starting point.
+- Someone searching Google for HMO furniture could still land on the existing HMO page. From there, they could explore the same packs through my visual catalogue, perhaps already showing the HMO options.
+- Someone searching for Malvern could still reach the existing Malvern page, but have the option to turn through photos, see what's included and move into the quote journey.
+- Someone landing on the homepage could immediately see and switch between the furniture packages instead of having to look for them. I'd like to put more of the opening space to work and make the first steps clearer.
+
+**The catalogue would be an additional way to see the furniture, not a replacement for the actual product and sector pages.** Some people will want to look at pictures and compare packs quickly; others will want prices, measurements, detailed descriptions and delivery information. Both should be easy to find.
+
+When I say the SEO information could sit more quietly behind the visual experience, I **don't** mean hiding a block of keywords for Google. I mean keeping genuine information on the relevant pages, with proper links and, where useful, expandable sections or tabs that visitors can open. [Google allows tabs and accordions used for the visitor experience](https://developers.google.com/search/docs/essentials/spam-policies), but warns against text hidden just to influence rankings.
+
+One thing I want to be clear about: **this alpha currently brings the packs together on one interactive page. It doesn't recreate all the existing standalone Google-searchable pages or prove that a redesign would preserve rankings.** A live version would need those page addresses, crawlable links and important content to be maintained or properly planned, and an SEO specialist would need to check it against Search Console data. [Google's developer guidance](https://developers.google.com/search/docs/fundamentals/get-started-developers) explains why those links and pages matter.
+
+So I'm not suggesting the team should throw away the site they've already built. I'm showing **individual ideas that could be added to it**, with the technical and SEO decisions made by the people who know that side of the business.
 
 ## Possible ideas for a later beta
 
