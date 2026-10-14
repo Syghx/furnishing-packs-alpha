@@ -15,33 +15,19 @@ The team mentioned that it may be more practical to take **parts of this concept
 
 These are ideas shown through a working prototype, not features ready to be added to the live website. I'd particularly like feedback on whether they make the customer journey simpler.
 
-## How I imagine this working with the current website
+## How I think this could fit into the existing website
 
-I understand why the team is cautious about changing the whole website, particularly if its existing pages bring people in through Google. **I'm still learning how SEO works**, so this is my interpretation of how the ideas might fit together, not a claim that I've solved the technical side.
+I understand the concern about changing the website and potentially affecting its Google rankings. The current site has clearly had a lot of work put into it, and I wouldn't want my ideas to undo any of that. **I have some understanding of SEO, but I'm still learning**, so this is just how I'm thinking about it. I'm more than happy to be corrected or learn how the team approaches it.
 
-Having looked at the current site, I can see it has individual pages for things like [HMO furniture packages](https://furnishingpacks.co.uk/hmo-furniture-packages/) and the [Malvern package](https://furnishingpacks.co.uk/package/malvern/), as well as other customer types. **I wouldn't suggest getting rid of those pages.** My idea is to make the way people *browse* more engaging while keeping those pages and their useful information.
+A good example is the current **“Choose a package”** section. On mobile, it explains what customers should do, but I wondered whether the same space could also let them *do it*. In my alpha, that idea becomes four steps: **choose a pack → see the quote → choose a preferred delivery week → send the quote request**.
 
-### A good example: the current “Choose a package” section
+I'm **not suggesting that the written information should disappear**. I know descriptions, headings, FAQs and other content may matter to visitors and to Google. My thought is that we could keep the helpful explanations, but place them alongside relevant choices, so customers can read what they need and keep moving towards an enquiry rather than scrolling through separate explanatory sections. The information would still be available to people, not hidden away just for search engines.
 
-In the mobile screenshot I shared, the existing site uses a numbered **“Choose a package”** card to explain the first step, with quite a lot of white space around it. I understand why that information is there, but I wonder if the space could do more for the visitor. Instead of only reading what to do, they could **start doing it** — choose a pack, see the price and move through the next steps without losing their place.
+The catalogue is similar. I see it as **another way of browsing the same furniture**, not as a reason to remove the current product pages. Someone could still find the existing [HMO furniture packages](https://furnishingpacks.co.uk/hmo-furniture-packages/) or [Malvern package](https://furnishingpacks.co.uk/package/malvern/) through Google, read the useful information there and then choose to explore the furniture in a more visual catalogue. Existing page URLs and links could be kept as part of any integration, subject to the team's advice.
 
-That's the thinking behind my four-step section: **Your pack → Your quote → Your week → Send your quote**. It makes the explanation part of an actual journey towards getting in touch. I can't say it would increase conversions without testing, but I think it's worth exploring.
+**One important distinction:** this early alpha demonstrates my layout and customer-journey ideas; it has **not** carried across or verified the live site's complete SEO setup. So I'm not claiming my version would keep the same rankings if it replaced the current site. That would need an SEO review, careful implementation and testing.
 
-This doesn't mean deleting useful written information. We could still have clear explanations, FAQs and links to relevant pages, including information displayed in sensible tabs or expandable sections. **SEO isn't just text on a page**; the existing URLs, headings, useful content, internal links and performance matter as well. My concept is about giving the important information a better place in the customer experience, not hiding it from visitors just so Google can see it.
-
-For example:
-
-- Someone searching Google for HMO furniture could still land on the existing HMO page. From there, they could explore the same packs through my visual catalogue, perhaps already showing the HMO options.
-- Someone searching for Malvern could still reach the existing Malvern page, but have the option to turn through photos, see what's included and move into the quote journey.
-- Someone landing on the homepage could immediately see and switch between the furniture packages instead of having to look for them. I'd like to put more of the opening space to work and make the first steps clearer.
-
-**The catalogue would be an additional way to see the furniture, not a replacement for the actual product and sector pages.** Some people will want to look at pictures and compare packs quickly; others will want prices, measurements, detailed descriptions and delivery information. Both should be easy to find.
-
-When I say the SEO information could sit more quietly behind the visual experience, I **don't** mean hiding a block of keywords for Google. I mean keeping genuine information on the relevant pages, with proper links and, where useful, expandable sections or tabs that visitors can open. [Google allows tabs and accordions used for the visitor experience](https://developers.google.com/search/docs/essentials/spam-policies), but warns against text hidden just to influence rankings.
-
-One thing I want to be clear about: **this alpha currently brings the packs together on one interactive page. It doesn't recreate all the existing standalone Google-searchable pages or prove that a redesign would preserve rankings.** A live version would need those page addresses, crawlable links and important content to be maintained or properly planned, and an SEO specialist would need to check it against Search Console data. [Google's developer guidance](https://developers.google.com/search/docs/fundamentals/get-started-developers) explains why those links and pages matter.
-
-So I'm not suggesting the team should throw away the site they've already built. I'm showing **individual ideas that could be added to it**, with the technical and SEO decisions made by the people who know that side of the business.
+I don't know yet whether these changes would improve enquiries or customer engagement either. That's why I'm sharing them as ideas for feedback, not telling the team how the website should be built. My aim is simply to **keep what already works and explore how the experience could feel clearer and more useful for customers**.
 
 ## Possible ideas for a later beta
 
