@@ -39,7 +39,7 @@ The Windows `py -3` launcher spelling in the README was not run.
 
 ## Verification limits
 
-The browser checks ran in a Chromium-based browser pane (the Claude desktop app's) while it was narrow and hidden, so animation smoothness and visual appearance were not judged in that pass. The 86-photograph check ran on the identical working files at 1614 px wide. Safari, Firefox and real phones were not tested, and no performance was measured.
+The browser checks ran in a Chromium-based browser pane  while it was narrow and hidden, so animation smoothness and visual appearance were not judged in that pass. The 86-photograph check ran on the identical working files at 1614 px wide. Safari, Firefox and real phones were not tested, and no performance was measured.
 
 Quote submission builds a `mailto:` email draft and holds quote selections in memory. No enquiry email was sent. The company handover message is a draft.
 
