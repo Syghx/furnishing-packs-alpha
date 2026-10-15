@@ -45,11 +45,13 @@ veil.setAttribute('aria-hidden', 'true');
 document.body.append(veil);
 function scrollToEl(el, offset = -84) {
   if (!el) return;
-  // A pinned section can ask to be landed part-way through, where its content has settled (the steps of
-  // "How it works", all in view), rather than at its top.
-  const yOf = () => el.getBoundingClientRect().top + scrollY + (el.dataset.landAt && el.classList.contains('is-pinned')
-    ? (el.offsetHeight - innerHeight) * Number(el.dataset.landAt)
-    : offset);
+  // A part of the pinned stage is landed where it has settled (the pack at the start, the steps of
+  // "How it works" all in view part-way through), rather than at the stage's top.
+  const yOf = () => {
+    const host = el.dataset.landAt != null && el.closest('.flow.is-pinned');
+    if (host) return host.getBoundingClientRect().top + scrollY + (host.offsetHeight - innerHeight) * Number(el.dataset.landAt);
+    return el.getBoundingClientRect().top + scrollY + offset;
+  };
   const target = yOf();
   if (Math.abs(target - scrollY) > innerHeight * 1.5 && !reduceMotion) {
     veil.classList.add('is-on');
@@ -436,6 +438,9 @@ const WHO = { letting: 'Homes to let', hmo: 'HMOs', serviced: 'Serviced apartmen
 const NOUN = { letting: 'home to let', hmo: 'HMO', serviced: 'serviced apartment', student: 'student let', social: 'social or supported home' };
 
 const show = { sector: SECTORS[0].id, order: [], i: 0, beds: 1 };
+// Prices are ex VAT, the way businesses buy; the price line also shows the figure with VAT, the way a private
+// landlord who can't claim it back actually pays.
+const incVat = (n) => Math.round(n * (1 + VAT_RATE));
 const stage = $('#show');
 const showName = $('#show-name');
 const doors = $$('.door', stage);
@@ -446,10 +451,13 @@ const CAT = { letting: 'Homes to let', hmo: 'HMOs', serviced: 'Serviced', studen
 const whoBtn = $('#show-who');
 const whoMenu = $('#show-who-menu');
 const pidx = $('#pidx');
-whoMenu.innerHTML = SECTORS.map((s) => {
-  const from = Math.min(...s.packs.map((id) => Math.min(...bedOptions(byId[id], s.type).map((n) => priceOf(byId[id], s.type, n)))));
-  return `<button type="button" role="menuitemradio" aria-checked="false" data-sector="${s.id}"><b>${esc(CAT[s.id])}</b><small>${s.packs.length} packs from ${money(from)}</small>${icon('check')}</button>`;
-}).join('');
+function fillWhoMenu() {
+  whoMenu.innerHTML = SECTORS.map((s) => {
+    const from = Math.min(...s.packs.map((id) => Math.min(...bedOptions(byId[id], s.type).map((n) => priceOf(byId[id], s.type, n)))));
+    return `<button type="button" role="menuitemradio" aria-checked="${s.id === show.sector}" data-sector="${s.id}"><b>${esc(CAT[s.id])}</b><small>${s.packs.length} packs from ${money(from)}</small>${icon('check')}</button>`;
+  }).join('');
+}
+fillWhoMenu();
 // The list floats above every section (it lives at the end of the page), so no edge can clip it and no
 // section can cover it; it stays attached to its word as the page moves.
 document.body.append(whoMenu);
@@ -597,14 +605,25 @@ function renderShow({ dir = 0 } = {}) {
     b.setAttribute('aria-label', `${p.name}, ${$('small', b).textContent}`);
   });
   glideTo(pidx, $(`[data-i="${show.i}"]`, pidx));
-  $('#show-price').textContent = money(priceOf(pk, type, show.beds));
+  const price = priceOf(pk, type, show.beds);
+  $('#show-price').textContent = money(price);
+  $('#show-vat').textContent = `ex VAT · ${money(incVat(price))} inc VAT`;
   $('#show-noun').textContent = NOUN[show.sector];
   $('#bed-n').textContent = show.beds;
   $('#bed-minus').disabled = show.beds <= opts[0];
   $('#bed-plus').disabled = show.beds >= opts[opts.length - 1];
+  // At the largest listed size, bigger properties have a way on instead of a dead end.
+  const most = show.beds >= opts[opts.length - 1];
+  $('#show-more-beds').hidden = !most;
+  if (most) $('#show-more-beds').textContent = `${show.beds + 1} or more bedrooms? Tell us in your quote`;
   doors.forEach((d) => fillDoor(d, pk, type, changed && Boolean(dir)));
   document.dispatchEvent(new Event('fp:change'));
 }
+
+$('#show-more-beds').addEventListener('click', () => {
+  scrollToEl($('#quote'));
+  setTimeout(() => $('#f-notes').focus({ preventScroll: true }), 1300);
+});
 
 const stepShow = (d) => {
   show.i = (show.i + d + show.order.length) % show.order.length;
@@ -838,18 +857,27 @@ function renderJourney() {
     } else paint();
     bg.dataset.key = key;
   }
-  const lead = byId[chosen[0]];
+  // The pack on screen leads when it is one of them, so the bedroom that settles into step 4 stays the same room.
+  const lead = byId[chosen.includes(pk.id) ? pk.id : chosen[0]];
   $('#jr-ready-img').src = img(roomPhoto(lead, 'bedroom'), 700);
-  $('#jr-fly img').src = img(roomPhoto(lead, 'bedroom'));
+  jr.leadBed = img(roomPhoto(lead, 'bedroom'), 1000);
 
   // 2. Their quote so far, and one tap to add the pack
   const t = totals();
   const lines = docket.lines.length;
   $('#jr-quote-total').textContent = lines ? money(t.sub) : '£0';
+  // What is in the quote, by name, so the total always says what it is for.
+  const named = docket.lines.map((l) => `${byId[l.pack].name}${l.qty > 1 ? ` × ${l.qty}` : ''}`);
   $('#jr-quote-sub').textContent = lines
-    ? `${t.props} ${t.props === 1 ? 'property' : 'properties'} on ${lines} ${lines === 1 ? 'line' : 'lines'}, ex VAT.`
+    ? `${named.slice(0, 3).join(' · ')}${named.length > 3 ? ` and ${named.length - 3} more` : ''}. Ex VAT, ${money(incVat(t.sub))} inc VAT.`
     : 'Nothing added yet.';
-  setAddBtn($('#jr-add'), inQuote(pk.id, sector.type, show.beds), `Add ${pk.name}`);
+  // Once this pack is in, step 1 says so (a tick on its photo) and its button offers more packs instead.
+  const added = inQuote(pk.id, sector.type, show.beds);
+  const jrAdd = $('#jr-add');
+  jrSteps[0].classList.toggle('is-added', added);
+  jrAdd.classList.toggle('is-more', added);
+  jrAdd.firstChild.nodeValue = added ? 'Add more packs' : `Add ${pk.name}`;
+  $('use', jrAdd).setAttribute('href', added ? '#i-plus' : '#i-check');
   renderMore();
 
   // 3 and 4. The day they choose, and when the property is ready to let
@@ -884,11 +912,13 @@ function renderJourney() {
     rail.classList.add('is-surge');
   }
   // The first pack sends the customer to step 2 (their quote), not past it; choosing a week sends them to step 4.
+  // A pack added in the pack section waits at step 1, which confirms it and offers more; one added from step 1 itself moves on.
   if (jr.done.length) {
-    if (done[0] && !jr.done[0]) jr.reached = Math.max(jr.reached, 1);
+    if (done[0] && !jr.done[0] && jr.fromStep) jr.reached = Math.max(jr.reached, 1);
     if (done[2] && !jr.done[2]) jr.reached = 3;
   }
   jr.done = done;
+  jr.fromStep = false;
   // A finished step hands the front to the next one.
   if (advanced) jrFront.manual = -1;
   frontStep();
@@ -914,6 +944,7 @@ function pickDay(s) {
   jrDate.value = jr.day;
   $('#deliv').classList.toggle('is-set', Boolean(jr.day));
   renderJourney();
+  keepQuote();
   showDay();
 }
 jrDays.addEventListener('click', (e) => {
@@ -932,6 +963,7 @@ function addFromStep(packId, from, type = sectorOf().type) {
   const card = from.closest('.jstep');
   const a = from.getBoundingClientRect();
   const c = card.getBoundingClientRect();
+  jr.fromStep = true;
   addLine({ pack: packId, type, beds: nearestBeds(byId[packId], type), qty: 1 });
   if (reduceMotion) return;
   const tag = document.createElement('span');
@@ -944,7 +976,7 @@ function addFromStep(packId, from, type = sectorOf().type) {
   tag.addEventListener('animationend', () => tag.remove());
 }
 $('#jr-add').addEventListener('click', (e) => {
-  if (e.currentTarget.classList.contains('is-added')) return scrollToEl($('#quote'));
+  if (e.currentTarget.classList.contains('is-more')) return toggleMore();
   addFromStep(show.order[show.i], e.currentTarget);
 });
 
@@ -963,6 +995,9 @@ function renderMore(dir = 0) {
   jrMoreEl.hidden = !jrMore.open;
   jrMoreBtn.closest('.jstep').classList.toggle('is-picking', jrMore.open);
   jrMoreBtn.setAttribute('aria-expanded', String(jrMore.open));
+  const jrAdd = $('#jr-add');
+  if (jrAdd.classList.contains('is-more')) jrAdd.setAttribute('aria-expanded', String(jrMore.open));
+  else jrAdd.removeAttribute('aria-expanded');
   jrMoreBtn.setAttribute('aria-label', jrMore.open ? 'Close the list of packs' : 'More packs: choose a category');
   if (!jrMore.open) return;
   const s = SECTORS.find((x) => x.id === jrMore.sector);
@@ -991,7 +1026,7 @@ function renderMore(dir = 0) {
     jrMoreEl.animate([{ opacity: 0, transform: `translate3d(${dir * 16}px, 0, 0)` }, { opacity: 1, transform: 'none' }], { duration: 480, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
   }
 }
-jrMoreBtn.addEventListener('click', () => {
+function toggleMore() {
   jrMore.open = !jrMore.open;
   // The plus always opens on the categories.
   jrMore.sector = '';
@@ -999,7 +1034,8 @@ jrMoreBtn.addEventListener('click', () => {
   if (!jrMore.open) jrFront.manual = -1;
   renderMore();
   frontStep();
-});
+}
+jrMoreBtn.addEventListener('click', toggleMore);
 
 // The step the customer is on comes forward and widens, the others stay in view behind it.
 // It moves on by itself as each step is done; a tap (or the keyboard) brings any step forward,
@@ -1021,11 +1057,10 @@ function frontStep() {
 // The moment the customer touches a step, every step appears at once (no waiting for them to scroll in),
 // and the page glides on to where the room has landed in step 4, so the next step and its "Next" are in view.
 function engageJourney() {
-  if (!journey.classList.contains('is-pinned')) return;
+  if (!isPinned()) return;
   journey.classList.add('is-engaged');
   pinLast.until = performance.now() + 1400;
-  const r = journey.getBoundingClientRect();
-  if (-r.top / Math.max(1, r.height - innerHeight) < 0.58) scrollToEl(journey);
+  if (flowP() < FLOW.land - 0.08) scrollToEl(journey);
 }
 // Capture runs before the step's own buttons, so a finished step can still hand the front on.
 jrList.addEventListener('click', (e) => {
@@ -1047,11 +1082,10 @@ jrList.addEventListener('focusin', (e) => {
 // "Next" on a finished step sends the customer straight to the following one: any open list or calendar
 // folds away, that step comes forward, the page brings it into view if needed, and focus moves into it.
 function bringStepIntoView(i) {
-  if (journey.classList.contains('is-pinned')) {
+  if (isPinned()) {
     // Pinned: all four steps are on screen once the room has landed; glide there if the visitor is short of it.
-    const r = journey.getBoundingClientRect();
-    const p = -r.top / Math.max(1, r.height - innerHeight);
-    if (p < 0.58 || p > 0.97) scrollToEl(journey);
+    const p = flowP();
+    if (p < FLOW.land - 0.08 || p > 0.97) scrollToEl(journey);
     return;
   }
   const c = jrSteps[i].getBoundingClientRect();
@@ -1098,67 +1132,172 @@ new IntersectionObserver(([en]) => {
 // The quote is set up further down this file, so the first render waits until the module has run.
 queueMicrotask(renderJourney);
 
-// The way in, as on landonorris.com: the finished room fills the screen, then pulls back into the
-// "Ready to let" card while the steps arrive one at a time. It pins only where the whole tracker fits;
-// on smaller screens the room pulls back into a card in CSS as it scrolls past.
+// One stage: the pack zooms out into the order. Where both fit on screen, the pack section and the steps share
+// one pinned stage, and scrolling on (or "Next step") plays a single motion: the pack steps back towards step 1,
+// the living room opens out into the backdrop and the bedroom settles into "Ready to let" while the steps arrive.
+// The customer never leaves one page for another. Phones and short screens scroll through it as two parts.
+const flow = $('#flow');
+const showSec = $('#price');
+const showFoot = $('.show-foot', showSec);
+const doorTags = $$('.door-tag', stage);
 const jrStage = $('#jr-stage');
-const fly = $('#jr-fly');
-const flyCap = $('.jr-cap', fly);
+const jrScene = $('#jr-scene');
+const ffLiving = $('#ff-living');
+const ffBed = $('#ff-bed');
+const [ffBedA, ffBedB] = $$('img', ffBed);
 const jrFades = $$('.jr-fade', journey);
 const readyCard = $('.jstep-ready', journey);
 const lerp = (a, b, t) => a + (b - a) * t;
 const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+// The timeline, as parts of the way through the stage: the pack holds, the motion plays, the steps settle.
+const FLOW = { start: 0.03, end: 0.5, land: Number(journey.dataset.landAt) };
+const isPinned = () => flow.classList.contains('is-pinned');
+const flowP = () => {
+  const r = flow.getBoundingClientRect();
+  return clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
+};
 let pinLoop = false;
 
 function setPinned() {
   const want = !reduceMotion && innerWidth > 960 && innerHeight >= 680;
-  if (want === journey.classList.contains('is-pinned')) return;
+  if (want === isPinned()) return;
+  flow.classList.toggle('is-pinned', want);
   journey.classList.toggle('is-pinned', want);
-  if (!want) {
-    fly.removeAttribute('style');
-    flyCap.style.opacity = '';
-    jrFades.forEach((el) => (el.style.opacity = ''));
-    jrSteps.forEach((el) => el.classList.remove('is-on'));
+  pinLast.p = -1;
+  if (want) return;
+  flow.classList.remove('is-moving', 'is-steps', 'is-naming');
+  for (const el of [centre, showFoot, jrScene, ...doorTags, ...jrFades]) {
+    el.style.opacity = '';
+    el.style.transform = '';
   }
+  jrSteps.forEach((el) => el.classList.remove('is-on'));
 }
 
 // The loop keeps measuring for a moment after the customer acts (a card may grow or spring).
-const pinLast = { p: -1, w: 0, until: 0 };
+const pinLast = { p: -1, w: 0, h: 0, until: 0, moving: false };
+const boxIn = (el, st) => {
+  const r = el.getBoundingClientRect();
+  return { x: r.left - st.left, y: r.top - st.top, w: r.width, h: r.height };
+};
+// An arch's own curve: "999px" corners shrink to half its width, and the bottom corners shrink with them.
+const archOf = (b) => {
+  const f = Math.min(b.w / 1998, b.h / 1033, 1);
+  return [999 * f, 34 * f];
+};
+// A photo travels from its arch to where it belongs, its corners easing from the arch's to the card's.
+function travel(el, from, to, z, radius) {
+  const [top, bottom] = archOf(from);
+  const rt = lerp(top, radius, z).toFixed(1);
+  const rb = lerp(bottom, radius, z).toFixed(1);
+  el.style.cssText = `left:${lerp(from.x, to.x, z).toFixed(1)}px;top:${lerp(from.y, to.y, z).toFixed(1)}px;width:${lerp(from.w, to.w, z).toFixed(1)}px;height:${lerp(from.h, to.h, z).toFixed(1)}px;border-radius:${rt}px ${rt}px ${rb}px ${rb}px`;
+  // The arch's own slight zoom and shade go as it opens.
+  $$('img', el).forEach((im) => (im.style.transform = `scale(${lerp(1.08, 1, z).toFixed(3)})`));
+  $('i', el).style.opacity = String(lerp(0.5, 0, z));
+}
+const syncSrc = (im, src) => { if (src && im.getAttribute('src') !== src) im.src = src; };
+let doorBoxes = null;
+// The pack's name, measured as text (not its box), where it stands on the pack page and where it lands in step 1.
+const ffName = $('#ff-name');
+const jrPackName = $('#jr-pack-name');
+const NAME_END = 0.42;
+let nameBox = null;
+let nameFont = 0;
+const textBox = (el, st) => {
+  const r = document.createRange();
+  r.selectNodeContents(el);
+  const b = r.getBoundingClientRect();
+  return { x: b.left - st.left, y: b.top - st.top, w: b.width, h: b.height };
+};
+
 function pinFrame() {
   if (!pinLoop) return;
   requestAnimationFrame(pinFrame);
-  if (!journey.classList.contains('is-pinned')) return;
-  const r = journey.getBoundingClientRect();
-  const p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
+  if (!isPinned()) return;
+  const p = flowP();
   // Nothing has moved since the last frame: skip the measuring and drawing entirely.
-  if (p === pinLast.p && innerWidth === pinLast.w && performance.now() > pinLast.until) return;
+  const resized = innerWidth !== pinLast.w || innerHeight !== pinLast.h;
+  if (p === pinLast.p && !resized && performance.now() > pinLast.until) return;
   pinLast.p = p;
   pinLast.w = innerWidth;
-  // Measured when anything moves, because the headline and the card can change size as the customer acts.
+  pinLast.h = innerHeight;
   const st = jrStage.getBoundingClientRect();
-  const c = readyCard.getBoundingClientRect();
-  // It starts as large as the photo allows while staying sharp: full screen where the photo is big
-  // enough, otherwise a large framed close-up. It is never blown up past its own pixels.
-  const flyImg = fly.firstElementChild;
-  const lim = (devicePixelRatio >= 2 ? 1.3 : 1.15) / devicePixelRatio;
-  const aspect = st.width / st.height;
-  const w0 = Math.min(st.width, lim * (flyImg.naturalWidth || 1200), aspect * lim * (flyImg.naturalHeight || 900));
-  const h0 = w0 / aspect;
-  const r0 = w0 < st.width - 1 ? 28 : 0;
-  const z = easeIO(clamp((p - 0.08) / 0.5, 0, 1));
-  fly.style.left = `${lerp((st.width - w0) / 2, c.left - st.left, z).toFixed(1)}px`;
-  fly.style.top = `${lerp((st.height - h0) / 2, c.top - st.top, z).toFixed(1)}px`;
-  fly.style.width = `${lerp(w0, c.width, z).toFixed(1)}px`;
-  fly.style.height = `${lerp(h0, c.height, z).toFixed(1)}px`;
-  fly.style.borderRadius = `${lerp(r0, 28, z).toFixed(1)}px`;
-  flyCap.style.opacity = String(1 - clamp((p - 0.04) / 0.16, 0, 1));
-  const head = clamp((p - 0.4) / 0.14, 0, 1);
+  const moving = p > FLOW.start;
+  // The moment it starts, any open room closes and the list of categories folds away.
+  if (moving && !pinLast.moving) {
+    openDoor(null);
+    if (!whoMenu.hidden) setWhoMenu(false);
+  }
+  pinLast.moving = moving;
+  // While the pack is on screen (and whenever the window changes), the rooms and the pack are measured where they stand.
+  if (!moving || resized || !doorBoxes) {
+    doorBoxes = doors.map((d) => boxIn(d, st));
+    nameBox = textBox(showName, st);
+    nameFont = parseFloat(getComputedStyle(showName).fontSize);
+  }
+  flow.classList.toggle('is-moving', moving);
+  flow.classList.toggle('is-steps', p >= 0.4);
+
+  // Before anything moves, the labels on the rooms and the strip of packs bow out.
+  const pre = clamp(p / FLOW.start, 0, 1);
+  doorTags.forEach((t) => (t.style.opacity = String(1 - pre)));
+  const foot = clamp(p / 0.12, 0, 1);
+  showFoot.style.opacity = String(1 - foot);
+  showFoot.style.transform = `translate3d(0, ${(foot * 24).toFixed(1)}px, 0)`;
+
+  // First the pack itself zooms out and fades where it stands, so nothing it says is ever crossed by the rooms.
+  const zc = 1 - (1 - clamp((p - FLOW.start) / 0.17, 0, 1)) ** 3;
+  centre.style.transform = moving ? `translate3d(0, ${(-18 * zc).toFixed(1)}px, 0) scale(${lerp(1, 0.86, zc).toFixed(3)})` : '';
+  centre.style.opacity = String(1 - zc);
+  // Then the rooms move: the bedroom towards its card, and a moment later the living room opens out behind.
+  const zb = easeIO(clamp((p - 0.06) / (FLOW.end - 0.06), 0, 1));
+  const zl = easeIO(clamp((p - 0.1) / 0.34, 0, 1));
+
+  // The living room opens out into the whole stage, then softens into the backdrop of the order;
+  // the bedroom settles into "Ready to let", turning into the lead pack's bedroom if that is another pack.
+  const [living, bedroom] = doors;
+  syncSrc($('img', ffLiving), $('img', living).getAttribute('src'));
+  // Over it, the same photo at its full size, so the room stays sharp as it fills the screen.
+  const hi = $('.ff-hi', ffLiving);
+  const full = img(roomPhoto(byId[show.order[show.i]], 'living'));
+  if (hi.getAttribute('src') !== full) {
+    hi.classList.remove('is-ready');
+    hi.onload = () => hi.classList.add('is-ready');
+    hi.src = full;
+  }
+  syncSrc(ffBedA, $('img', bedroom).getAttribute('src'));
+  syncSrc(ffBedB, jr.leadBed);
+  travel(ffLiving, doorBoxes[0], { x: 0, y: 0, w: st.width, h: st.height }, zl, 0);
+  travel(ffBed, doorBoxes[1], boxIn(readyCard, st), zb, 28);
+  ffBedB.style.opacity = ffBedB.getAttribute('src') === ffBedA.getAttribute('src') ? '0' : String(clamp((zb - 0.55) / 0.4, 0, 1));
+  jrScene.style.opacity = String(clamp((p - 0.3) / 0.16, 0, 1));
+
+  // The name the customer chose travels into step 1, shrinking as it goes and turning white as the room darkens.
+  const naming = moving && p < NAME_END;
+  flow.classList.toggle('is-naming', naming);
+  if (naming) {
+    const label = showName.getAttribute('aria-label') || showName.textContent;
+    if (ffName.dataset.name !== label) {
+      ffName.innerHTML = showName.innerHTML;
+      ffName.dataset.name = label;
+    }
+    ffName.style.fontSize = `${nameFont}px`;
+    const end = textBox(jrPackName, st);
+    const zn = easeIO(clamp((p - FLOW.start) / (NAME_END - FLOW.start), 0, 1));
+    const k = lerp(1, end.w / Math.max(1, nameBox.w), zn);
+    const x = lerp(nameBox.x, end.x, zn);
+    const y = lerp(nameBox.y + nameBox.h / 2, end.y + end.h / 2, zn) - (nameBox.h * k) / 2;
+    ffName.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(${k.toFixed(4)})`;
+    const c = clamp((p - 0.24) / 0.16, 0, 1);
+    ffName.style.color = `rgb(${Math.round(lerp(17, 255, c))}, ${Math.round(lerp(18, 255, c))}, ${Math.round(lerp(19, 255, c))})`;
+  }
+
+  // The heading and the line arrive, then the steps one at a time; the last card lands with the room inside it.
+  // Once the customer has touched a step, every step stays in view; scrolling back to the pack resets it.
+  const head = clamp((p - 0.38) / 0.1, 0, 1);
   jrFades.forEach((el) => (el.style.opacity = String(head)));
-  // The steps pop in one at a time; the last card lands with the room inside it.
-  // Once the customer has touched a step, every step stays in view; scrolling back to the start resets it.
   const engaged = journey.classList.contains('is-engaged');
-  if (engaged && p < 0.3) journey.classList.remove('is-engaged');
-  jrSteps.forEach((el, i) => el.classList.toggle('is-on', (engaged && p >= 0.3) || p >= (i < 3 ? 0.46 + i * 0.06 : 0.58)));
+  if (engaged && p < 0.25) journey.classList.remove('is-engaged');
+  jrSteps.forEach((el, i) => el.classList.toggle('is-on', (engaged && p >= 0.4) || p >= (i < 3 ? 0.4 + i * 0.035 : 0.48)));
   // Once the room has landed in its card, it steps back with the card when another step is in front.
   journey.classList.toggle('ready-back', jrList.dataset.active !== '3' && readyCard.classList.contains('is-on'));
 }
@@ -1168,7 +1307,32 @@ addEventListener('resize', setPinned);
 new IntersectionObserver(([en]) => {
   pinLoop = en.isIntersecting;
   if (pinLoop) requestAnimationFrame(pinFrame);
-}).observe(journey);
+}).observe(flow);
+
+// "Next step" plays the motion: one slow, even glide from the pack to the steps, landing on step 1,
+// where the pack just added is confirmed and more packs or the catalogue are one tap away.
+const focusStep = (i) => [...jrSteps[i].querySelectorAll('button, a')].find((el) => el.offsetParent)?.focus({ preventScroll: true });
+$('#show-go').addEventListener('click', () => {
+  if (jrMore.open) {
+    jrMore.open = false;
+    renderMore();
+  }
+  jrFront.manual = 0;
+  frontStep();
+  if (!isPinned()) {
+    scrollToEl(jrSteps[0], -96);
+    setTimeout(() => focusStep(0), 900);
+    return;
+  }
+  const y = flow.getBoundingClientRect().top + scrollY + (flow.offsetHeight - innerHeight) * FLOW.land;
+  if (lenis) lenis.scrollTo(y, { duration: 1.6, easing: easeIO, onComplete: () => focusStep(0) });
+  else {
+    scrollTo({ top: y, behavior: 'smooth' });
+    setTimeout(() => focusStep(0), 1200);
+  }
+});
+// Reaching back into the pack with the keyboard brings the pack back on screen.
+showSec.addEventListener('focusin', () => { if (isPinned() && flowP() > FLOW.start) scrollToEl(showSec); });
 
 /* ================================================================== */
 /* Quote docket: lines, totals with VAT, and every piece added up      */
@@ -1192,7 +1356,10 @@ function setAddBtn(btn, added, label) {
   btn.firstChild.nodeValue = added ? 'In your quote' : label;
   btn.querySelector('.btn-ico use')?.setAttribute('href', added ? '#i-check' : '#i-plus');
 }
-document.addEventListener('fp:change', () => setAddBtn($('#show-add'), inQuote(show.order[show.i], sectorOf().type, show.beds), 'Add to quote'));
+document.addEventListener('fp:change', () => {
+  setAddBtn($('#show-add'), inQuote(show.order[show.i], sectorOf().type, show.beds), 'Add to quote');
+  $('#show-go').classList.toggle('is-go', docket.lines.length > 0);
+});
 function addLine(l, { quiet = false } = {}) {
   const same = docket.lines.find((x) => x.pack === l.pack && x.type === l.type && x.beds === l.beds && !hasChanges(x));
   if (same) same.qty = clamp(same.qty + l.qty, 1, 500);
@@ -1319,13 +1486,21 @@ function totals() {
   return { sub, vat, total: sub + vat, props: docket.lines.reduce((s, l) => s + l.qty, 0), changed: docket.lines.filter(hasChanges).length };
 }
 
+// On phones the bottom bar carries the running total once there is one.
+function syncMbar() {
+  const t = totals();
+  $('.mbar-quote').firstChild.nodeValue = t.props ? `Quote ${money(t.sub)}` : 'Get a quote';
+}
 function renderDocket(focusSel) {
+  if (docket.lines.length) $('#q-empty').hidden = true;
   linesEl.innerHTML = docket.lines.length
     ? docket.lines.map(lineHTML).join('')
     : '<p class="empty">Your quote is empty. Add a pack from above, or add one here.</p>';
   const t = totals();
   const note = t.changed ? ', before changes' : '';
+  // What the others charge for at checkout is ours to include, and the sums say so.
   $('#totals').innerHTML = `
+    <div><dt>Delivery, assembly and packaging removal</dt><dd>${money2(0)}</dd></div>
     <div><dt>Subtotal, ex VAT${note}</dt><dd>${money2(t.sub)}</dd></div>
     <div><dt>VAT at ${Math.round(VAT_RATE * 100)}%</dt><dd>${money2(t.vat)}</dd></div>
     ${t.changed ? `<div class="changes-row"><dt>Changes on ${t.changed} ${t.changed === 1 ? 'line' : 'lines'}</dt><dd>Priced in your quote</dd></div>` : ''}
@@ -1336,10 +1511,12 @@ function renderDocket(focusSel) {
   $('#pieces-list').innerHTML = pcs.map(([n, name]) => `<li><b>${n}</b>${esc(name)}</li>`).join('');
   $('#pieces').hidden = !count;
   document.dispatchEvent(new Event('fp:change'));
+  syncMbar();
   $('#nav-count').textContent = t.props;
   $('#nav-count').hidden = !t.props;
   $('#nav').classList.toggle('has-quote', t.props > 0);
   if (focusSel) $(focusSel, linesEl)?.focus();
+  keepQuote();
 }
 
 const lineOf = (el) => docket.lines.find((x) => x.id === Number(el.closest('.ln-wrap')?.dataset.id));
@@ -1451,7 +1628,8 @@ function quoteText() {
   return [
     `Furnishing Packs quote ${docket.ref}`,
     ...ls,
-    `Delivery, assembly and packaging removal: included, ${jr.day ? `week commencing ${longYear(dayOf(jr.day))}` : 'week to be agreed'}`,
+    `Delivery, assembly and packaging removal: ${money2(0)}`,
+    `Delivery: ${jr.day ? `week commencing ${longYear(dayOf(jr.day))}` : 'week to be agreed'}`,
     `Subtotal ex VAT${t.changed ? ' (before changes)' : ''}: ${money2(t.sub)}`,
     `VAT at ${Math.round(VAT_RATE * 100)}%: ${money2(t.vat)}`,
     `Total inc VAT${t.changed ? ' (before changes)' : ''}: ${money2(t.total)}`,
@@ -1462,16 +1640,106 @@ function quoteText() {
   ].join('\n');
 }
 
-$('#copy-quote').addEventListener('click', async () => {
-  const status = $('#copy-status');
+// The quote is kept on this device, so a landlord who goes away to check with a partner comes back to it,
+// reference and all. Only the quote is kept, never the customer's details, and it lapses after 30 days.
+const KEEP = 'fp-quote';
+const KEEP_MS = 30 * 864e5;
+let keepTimer = 0;
+function keepQuote() {
+  clearTimeout(keepTimer);
+  keepTimer = setTimeout(() => {
+    try {
+      if (!docket.lines.length && !jr.day) localStorage.removeItem(KEEP);
+      else localStorage.setItem(KEEP, JSON.stringify({ v: 1, at: Date.now(), ref: docket.ref, day: jr.day, lines: docket.lines.map(({ pack, type, beds, qty, mods, extras }) => ({ pack, type, beds, qty, mods, extras })) }));
+    } catch { /* storage is off: the quote simply isn't kept */ }
+  }, 250);
+}
+const whole = (n, lo, hi) => clamp(Math.round(Number(n)) || 0, lo, hi);
+function restoreQuote() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEEP) || 'null'); } catch { return; }
+  if (!saved || saved.v !== 1 || !(Date.now() - saved.at < KEEP_MS)) return;
+  // Only what the page itself offers comes back; anything else is left out.
+  const lines = (Array.isArray(saved.lines) ? saved.lines : []).filter((l) => l && byId[l.pack]
+    && sizeOptions(byId[l.pack]).some((o) => o.type === l.type && o.beds === l.beds)).map((l) => ({
+    pack: l.pack, type: l.type, beds: l.beds, qty: whole(l.qty, 1, 500),
+    mods: Object.fromEntries(Object.entries(l.mods && typeof l.mods === 'object' ? l.mods : {}).filter(([k]) => typeof k === 'string').map(([k, d]) => [k, whole(d, -500, 500)])),
+    extras: (Array.isArray(l.extras) ? l.extras : []).filter((x) => x && byId[x.pack] && typeof x.name === 'string').map((x) => ({ pack: x.pack, name: x.name, n: whole(x.n, 1, 500) })),
+    id: ++docket.uid,
+  }));
+  if (!lines.length && !saved.day) return;
+  docket.lines = lines;
+  if (/^FP-\d{4}$/.test(saved.ref)) docket.ref = saved.ref;
+  docket.kept = lines.length > 0;
+  if (saved.day) queueMicrotask(() => pickDay(saved.day));
+}
+function showRef() {
+  $('#docket-ref').textContent = `Ref ${docket.ref}${docket.kept && docket.lines.length ? ' · kept from your last visit' : ''}`;
+  $('#new-quote').hidden = !docket.kept || !docket.lines.length;
+}
+document.addEventListener('fp:change', showRef);
+// Starting again clears the quote and the week, with a new reference; a second tap confirms.
+const newQuote = $('#new-quote');
+let newQuoteTimer = 0;
+newQuote.addEventListener('click', () => {
+  if (!newQuote.classList.contains('is-confirm')) {
+    newQuote.classList.add('is-confirm');
+    newQuote.textContent = 'Clear the whole quote?';
+    newQuoteTimer = setTimeout(() => { newQuote.classList.remove('is-confirm'); newQuote.textContent = 'Start again'; }, 4000);
+    return;
+  }
+  clearTimeout(newQuoteTimer);
+  newQuote.classList.remove('is-confirm');
+  newQuote.textContent = 'Start again';
+  docket.lines = [];
+  docket.open.clear();
+  docket.kept = false;
+  docket.ref = `FP-${Math.floor(1000 + Math.random() * 9000)}`;
+  pickDay('');
+  renderDocket();
+  $('#add-line').focus();
+});
+
+// "Save as PDF": the quote alone, on letterhead, through the browser's own print-to-PDF.
+const fmtToday = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+$('#print-quote').addEventListener('click', () => {
+  const t = totals();
+  const rows = docket.lines.map((l) => {
+    const unit = priceOf(byId[l.pack], l.type, l.beds);
+    const ch = changesOf(l).map((c) => esc(changeText(c))).join(', ');
+    return `<tr><td>${esc(byId[l.pack].name)}<small>${esc(sizeLabel(l.type, l.beds))}${ch ? `. Changes in each: ${ch}` : ''}</small></td><td class="n">${l.qty}</td><td class="n">${money(unit)}</td><td class="n">${money(unit * l.qty)}</td></tr>`;
+  }).join('');
+  const pcs = piecesFor(docket.lines).sort((a, b) => b[0] - a[0] || a[1].localeCompare(b[1]));
+  const note = t.changed ? ' (before changes)' : '';
+  $('#print-doc').innerHTML = `
+    <div class="pd-head"><span class="pd-mark">furnishing packs<i></i></span><span class="pd-contact">0113 870 1057<br>info@furnishingpacks.co.uk<br>furnishingpacks.co.uk</span></div>
+    <div class="pd-title"><h1>Quote</h1><p>Ref ${esc(docket.ref)}<br>${fmtToday.format(new Date())}</p></div>
+    ${rows ? `<table><thead><tr><th>Pack</th><th class="n">Properties</th><th class="n">Each</th><th class="n">Total</th></tr></thead><tbody>${rows}</tbody></table>` : '<p>No packs added yet.</p>'}
+    <table class="pd-sums"><tbody>
+      <tr><td>Delivery, assembly and packaging removal</td><td class="n">${money2(0)}</td></tr>
+      <tr><td>Subtotal, ex VAT${note}</td><td class="n">${money2(t.sub)}</td></tr>
+      <tr><td>VAT at ${Math.round(VAT_RATE * 100)}%</td><td class="n">${money2(t.vat)}</td></tr>
+      <tr><td>Total, inc VAT${note}</td><td class="n">${money2(t.total)}</td></tr>
+    </tbody></table>
+    <p class="pd-note">Delivery, assembly and packaging removal are included${jr.day ? `, the week commencing ${esc(longYear(dayOf(jr.day)))}` : '; the delivery week is to be agreed'}.${t.changed ? ' Changes to pieces are priced and confirmed by our team.' : ''} Prices and availability are confirmed when we reply to your request.</p>
+    ${pcs.length ? `<div class="pd-pieces"><h2>Every piece we'll deliver</h2><ul>${pcs.map(([n, name]) => `<li><b>${n}</b>${esc(name)}</li>`).join('')}</ul></div>` : ''}`;
+  document.documentElement.classList.add('is-printing');
+  addEventListener('afterprint', () => document.documentElement.classList.remove('is-printing'), { once: true });
+  print();
+});
+
+async function copyQuote(status) {
   try {
     await navigator.clipboard.writeText(quoteText());
     status.textContent = 'Copied. Paste it into an email or your purchase order.';
   } catch {
     status.textContent = 'Copying is not allowed here. Select the quote above and copy it instead.';
   }
-});
+}
+$('#copy-quote').addEventListener('click', () => copyQuote($('#copy-status')));
+$('#q-copy').addEventListener('click', () => copyQuote($('#q-copy-status')));
 
+restoreQuote();
 renderDocket();
 
 /* Contact form */
@@ -1511,10 +1779,9 @@ form.addEventListener('submit', (e) => {
   const inputs = Object.keys(rules).map((id) => document.getElementById(id));
   const ok = inputs.map(check);
   if (ok.includes(false)) return inputs[ok.indexOf(false)].focus();
-  if (!docket.lines.length) {
-    toast('Add at least one pack to the quote first');
-    return $('#add-line').focus();
-  }
+  // An empty quote is said right by the button, and the way to fill it is one tap away.
+  $('#q-empty').hidden = docket.lines.length > 0;
+  if (!docket.lines.length) return $('#add-line').focus();
   const t = totals();
   const when = jr.day ? `, delivered the week commencing ${weekName(dayOf(jr.day))}` : '';
   $('#q-summary').textContent = `Ref ${docket.ref}: ${docket.lines.length} ${docket.lines.length === 1 ? 'line' : 'lines'}, ${t.props} ${t.props === 1 ? 'property' : 'properties'}, ${money2(t.total)} including VAT${when}.`;
@@ -1527,6 +1794,7 @@ form.addEventListener('submit', (e) => {
     `Email: ${v('f-email')}`,
     `Phone: ${v('f-phone')}`,
     v('f-postcode') && `Delivery postcode: ${v('f-postcode')}`,
+    v('f-access') && `Who lets us in: ${v('f-access')}`,
     v('f-notes') && `Notes: ${v('f-notes')}`,
     '',
     quoteText(),
@@ -1643,7 +1911,12 @@ function bookPackPages(pk) {
     : pk.board ? { src: pk.board, alt: `Every piece of the ${pk.name} pack`, title: 'The whole pack', board: true } : null;
   const suits = SECTORS.filter((s) => s.packs.includes(pk.id));
   const bedNames = pk.bed.map(([, n]) => n);
-  const livingNames = catalogue(pk).filter((n) => !bedNames.includes(n) && n !== 'Orthopaedic mattress');
+  // A pack whose sofa grows with the home (a two-seater, then a three-seater) shows it once, not one photo twice.
+  const livingNames = [...new Set(catalogue(pk).filter((n) => !bedNames.includes(n) && n !== 'Orthopaedic mattress').map((n, _, all) => {
+    const m = n.match(/^(.*?)(two|three)-seater sofa$/i);
+    const pair = m && `${m[1]}${m[2].toLowerCase() === 'two' ? 'three' : 'two'}-seater sofa`.toLowerCase();
+    return pair && all.some((x) => x.toLowerCase() === pair) ? `${m[1]}${m[1] ? 'two' : 'Two'}- or three-seater sofa` : n;
+  }))];
   const notes = [];
   if (pk.hmoMattress) notes.push('HMO packs add an orthopaedic mattress to every bedroom.');
   if (suits.some((s) => s.type === 'student')) notes.push('Student lets add a desk and desk chair to every bedroom.');
@@ -1866,7 +2139,7 @@ new IntersectionObserver(([en]) => { if (en.isIntersecting) fitBook(); }, { root
 /* Shared: nav tone, reveals, toast                                    */
 
 const nav = $('#nav');
-const tonedSections = $$('main > section[data-tone], footer[data-tone]');
+const tonedSections = $$('main section[data-tone], footer[data-tone]');
 let toneQueued = false;
 function queueTone() {
   if (toneQueued) return;
@@ -1942,13 +2215,11 @@ document.querySelectorAll('.foot').forEach((el) => new IntersectionObserver(([en
   syncBar();
 }).observe(el));
 
-const toastEl = $('#toast');
-let toastTimer = 0;
+// Additions are announced for screen readers only; on screen, the button that was pressed already shows it.
+const sayEl = $('#say');
 function toast(text) {
-  $('#toast-text').textContent = text;
-  toastEl.classList.add('is-on');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove('is-on'), 3400);
+  sayEl.textContent = '';
+  requestAnimationFrame(() => (sayEl.textContent = text));
 }
 
 /* ================================================================== */
