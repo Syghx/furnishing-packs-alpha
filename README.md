@@ -9,7 +9,7 @@ This is a **very early concept**, not a finished website. I've been exploring wa
 - **Furniture catalogue:** Browse packs visually, turn pages and enlarge furniture photos. This could sit alongside the existing product pages.
 - **Multiple packs and customisation:** Add several packages to one quote, change quantities and mix in individual pieces from other packs. The alpha shows indicative pack totals; item changes still need pricing confirmed.
 - **Four-step quote journey:** **Pick a pack → Review the quote → Choose a preferred delivery week → Send the request.** Customers can **copy the whole quote**—including packages, furniture quantities and a reference number—rather than typing it out themselves. The aim is to make enquiries and follow-ups easier.
-- **Logo:** A separate [logo concept](brand/logo.html) for feedback.
+- **Logo:** A separate [logo concept](brand/logo.html) for feedback, and a [PDF of the logo](brand/Furnishing-Packs-logo.pdf) with the full name and the doorway mark on its own.
 
 ## How this might fit the current site
 
